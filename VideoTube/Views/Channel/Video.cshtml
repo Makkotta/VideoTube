@@ -1,0 +1,74 @@
+﻿@using VideoTube.ViewModels.Channels
+@model VideoViewModel
+
+<div class="container-fluid pb-0">
+    <div class="video-block-right-list section-padding">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="single-video box p-0 overflow-hidden bg-dark">
+                    <iframe width="100%" height="415" src="https://testaspstorageproject.blob.core.windows.net/videos/@Model.Video.Source" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="video-slider-right-list box">
+                    @foreach (var video in Model.Others)
+                    {
+                        var link = $"/channels/{video.ChannelId}/videos/{video.Id}";
+
+                        <div class="video-card video-card-list">
+                            <div class="video-card-image">
+                                <a class="play-icon" href="@link"><i class="fas fa-play-circle"></i></a>
+                                <a href="#"><img class="img-fluid" src="https://testaspstorageproject.blob.core.windows.net/thumbnails/@video.Thumbnail"></a>
+                                <div class="time">3:50</div>
+                            </div>
+                            <div class="video-card-body">
+                                <div class="btn-group float-right right-action">
+                                    <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                                    </div>
+                                </div>
+                                <div class="video-title">
+                                    <a href="@link">@video.Title</a>
+                                </div>
+                                <div class="video-page text-success">
+                                    @video.Categories.FirstOrDefault()?.Name <a title data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                </div>
+                                <div class="video-view">
+                                    1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> @video.Created
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="video-block section-padding">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-video-left">
+                    <div class="single-video-title box mb-3">
+                        <h2><a href="#">@Model.Video.Title</a></h2>
+                        <p class="mb-0"><i class="fas fa-eye"></i> 100 views</p>
+                    </div>
+                    <div class="single-video-author box mb-3">
+                        <img class="img-fluid" src="@Model.Video.Channel.Logo">
+                        <p><a href="#"><strong>@Model.Video.Channel.Name</p>
+                        <small>Published on @Model.Video.Created.ToString("yyyy-MM-dd")</small>
+                    </div>
+                    <div class="single-video-info-content box mb-3">
+                        <h6>Category :</h6>
+                        <p>@string.Join(",", Model.Video.Categories.Select(category => category.Name))</p>
+                        <h6>About :</h6>
+                        <p>@Model.Video.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
