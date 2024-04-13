@@ -73,6 +73,11 @@ namespace VideoTube.Controllers
         [HttpPost("channels/upload")]
         public async Task<IActionResult> UploadVideoAsync(UploadVideoViewModel model) 
         {
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return LocalRedirect("/login");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Upload", model);
@@ -97,6 +102,8 @@ namespace VideoTube.Controllers
                 return View(model);
             }
 
+            var channel = await channelService.GetChannelByNameAsync(User.Identity.Name);
+
             var fileId = Guid.NewGuid();
             var videoName = fileId + Path.GetExtension(model.VideoFile.FileName);
             string? thumbnailName = null;
@@ -109,7 +116,7 @@ namespace VideoTube.Controllers
                 await videoStoreService.UploadThumbnailAsync(thumbnailName, model.Thumbnail);
             }
 
-            var video = await channelService.UploadVideoAsync(model.Title, model.Description, videoName, thumbnailName, 1);
+            var video = await channelService.UploadVideoAsync(model.Title, model.Description, videoName, thumbnailName, channel.Id, model.Category);
 
             return LocalRedirect($"/channels/{video.ChannelId}/videos/{video.Id}");
         }

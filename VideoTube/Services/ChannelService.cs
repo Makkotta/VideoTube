@@ -30,7 +30,7 @@ public class ChannelService
             .FirstOrDefaultAsync(video => video.Id == id);
     }
 
-    public async Task<Video> UploadVideoAsync(string title, string description, string source, string? thumbnail, int channelId) 
+    public async Task<Video> UploadVideoAsync(string title, string description, string source, string? thumbnail, int channelId, int[] categories) 
     {
         var video = new Video
         {
@@ -38,10 +38,18 @@ public class ChannelService
             Title = title,
             Description = description,
             Source = source,
-            ChannelId = channelId
+            ChannelId = channelId,
         };
 
         await videoContext.Videos.AddAsync(video);
+
+        foreach (var category in categories.Select(categoryId => new Category { Id = categoryId })) 
+        {
+            videoContext.Categories.Attach(category);
+
+            video.Categories.Add(category);
+        }
+
         await videoContext.SaveChangesAsync();
 
         return video;
@@ -58,6 +66,11 @@ public class ChannelService
             .ToListAsync();
     }
 
+    public async Task<Channel> GetChannelByNameAsync(string channelName) 
+    {
+        return await videoContext.Channels.FirstOrDefaultAsync(channel => channel.Name == channelName);
+    } 
+
     public async Task<List<Channel>> GetAllChannelsAsync()
     {
         return await videoContext.Channels.Take(10).ToListAsync();
@@ -68,6 +81,15 @@ public class ChannelService
         return await videoContext.Channels
             .Include(channel => channel.Videos.Take(10))
             .FirstOrDefaultAsync(channel => channel.Id == id);
+    }
+
+    public async Task<Channel> CreateChannelAsync(Channel channel) 
+    {
+        await videoContext.Channels.AddAsync(channel);
+
+        await videoContext.SaveChangesAsync();
+
+        return channel;
     }
 
 

@@ -43,14 +43,17 @@
                             <div class="form-group">
                                 <label>Username</label>
                                 <input asp-for="LoginName" type="text" class="form-control" placeholder="Enter username">
+                                <span asp-validation-for="LoginName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
                                 <input asp-for="Password" type="text" class="form-control" placeholder="Password">
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Confirm password</label>
                                 <input asp-for="ConfirmPassword" type="text" class="form-control" placeholder="Confirm password">
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-outline-primary btn-block btn-lg">Sign Up</button>

@@ -9,6 +9,7 @@ public class VideoConfiguration : IEntityTypeConfiguration<Video>
 {
     public void Configure(EntityTypeBuilder<Video> builder)
     {
+        builder.Property(video => video.Id).ValueGeneratedOnAdd();
         builder.Property(video => video.Title).IsRequired();
         builder.Property(video => video.Source).IsRequired();
 

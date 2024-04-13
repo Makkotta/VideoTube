@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+using VideoTube.Models;
 using VideoTube.Services;
 using VideoTube.ViewModels.Homes;
 
@@ -69,10 +70,8 @@ public class HomeController : Controller
     }
 
     [HttpGet("/register")]
-    public async Task<IActionResult> GetRegisterPageAsync()
+    public IActionResult GetRegisterPage()
     {
-        await Task.FromResult(0);
-
         return View("Register");
     }
 
@@ -89,6 +88,10 @@ public class HomeController : Controller
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
+
+                var channel = new Channel { Name = user.UserName };
+                await channelService.CreateChannelAsync(channel);
+
                 return LocalRedirect("/");
             }
 
@@ -98,6 +101,6 @@ public class HomeController : Controller
             }
         }
 
-        return LocalRedirect("/");
+        return View("Register");
     }
 }

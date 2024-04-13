@@ -12,8 +12,8 @@ using VideoTube.Persistence;
 namespace VideoTube.Persistence.Migrations
 {
     [DbContext(typeof(VideoContext))]
-    [Migration("20240405170754_AddIdentityEntities")]
-    partial class AddIdentityEntities
+    [Migration("20240411183840_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -271,7 +271,6 @@ namespace VideoTube.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

@@ -23,5 +23,7 @@ public class UploadVideoViewModel
     [Display(Name = "Description")]
     public string Description { get; set; }
 
+    public int[] Category { get; set; }
+
     public IReadOnlyCollection<Category> Categories { get; set; } = new List<Category>();
 }

@@ -45,8 +45,8 @@
                                 @foreach (var category in chunk)
                                 {
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="@category.Id">
-                                        <label class="custom-control-label" for="customCheck1">@category.Name</label>
+                                        <input type="checkbox" name="Category" class="custom-control-input" value="@category.Id" id="@category.Id">
+                                        <label class="custom-control-label" for="@category.Id">@category.Name</label>
                                     </div>
                                 }
                             </div>
